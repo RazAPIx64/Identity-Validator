@@ -4,11 +4,8 @@ task.wait(0.3)
 print("[ IV ]: Starting...")
 local function gv(p)local r=getfenv()or getfenv(0)while r and p~=""do local k,n=string.match(p,"^([^.]+)%.?(.*)$")r=r[k]p=n end return r end
 local ex
-
 if getexecutorname then ex = getexecutorname() else ex = "Unknown" end
-
 local passes, failures, tested = 0, 0, 0
-local identity = 8
 
 local function As(...) return assert(...) end
 local function b(...) return print(...) end
