@@ -143,6 +143,7 @@ if setthreadidentity then
   detected("setthreadidentity: Setting identity to 4", function()
      setthreadidentity(4)
      local a = pcall(function() return Instance.new("Player") end)
+     As(getthreadidentity() == 4, "Did not set the thread identity to 4 (getthreadidentity did not return the valid identity)");
      As(a, "Did not set the thread identity to 4")
   end)
 else
