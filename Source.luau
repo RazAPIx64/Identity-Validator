@@ -2,14 +2,15 @@ print("")
 print("[ IV ]: Thank you for using the identity validator by RazAPI!")
 task.wait(0.3)
 print("[ IV ]: Starting...")
-local function gv(p)local r=getfenv()or getfenv(0)while r and p~=""do local k,n=string.match(p,"^([^.]+)%.?(.*)$")r=r[k]p=n end return r end
+local function gv(p)local r=getfenv() or getfenv(0) if getgenv then r = getfenv() or getfenv(0) and getgenv() end; while r and p~=""do local k,n=string.match(p,"^([^.]+)%.?(.*)$")r=r[k]p=n end return r end
 local ex
 if getexecutorname then ex = getexecutorname() else ex = "Unknown" end
 local passes, failures, tested = 0, 0, 0
 
-local function As(...) return assert(...) end
-local function b(...) return print(...) end
-local function e(...) return warn(...) end
+local function As(ok, reason) if not ok then error(reason) end end -- just incase its spoofed
+local b = print
+local e = warn
+
 local function detected(f: string, t: () -> any)
     task.spawn(function()
         local func = gv(f)
