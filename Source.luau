@@ -113,15 +113,18 @@ print("")
 if setthreadidentity then
   detected("setthreadidentity: Validation Check", function()
      local b = pcall(function() return setthreadidentity(true) end)
+     local c = pcall(function() return setthreadidentity(9) end)
+
      As(setthreadidentity ~= nil, "setthreadidentity doesn't exist");
      As(not b, "setthreadidentity did not error when trying to set a non-numerical value");
+     As(not c, 'setthreadidentity did not return an error when trying to set the level to a non-existent internal level')
      return "Passed"
   end)
 
   detected("setthreadidentity: Closure Check", function()
     local a = pcall(function() setthreadidentity(2) setthreadidentity(3) end)
     As(debug.info(setthreadidentity, 's') == "[C]", "setthreadidentity is not a C Closure");
-    As(a, "Bro Really Tried Wrapping The Function In A Coroutine 💔")
+    As(a, "soo we just wrapping the function in a coroutine now 💔")
     local b = pcall(function() if getgenv then As(getgenv().setthreadidentity, "setthreadidentity is not a global function"); else return "getgenv is missing, Skipping test..." end end)
     return "Passed"
   end)
@@ -133,9 +136,9 @@ if setthreadidentity then
   end)
 
   detected("setthreadidentity: Setting identity to 3", function()
-     setthreadidentity(3)
-     As(getthreadidentity() == 3, "Did not set the thread identity to 3 (getthreadidentity did not return the valid identity)");
-     local a = pcall(function() return game.CorePackages.Name or game.CoreGui.Name end);
+     setthreadidentity(4)
+     As(getthreadidentity() == 4, "Did not set the thread identity to 4 (getthreadidentity did not return the valid identity)");
+     local a = pcall(function() return Instance.new('Player') end);
      As(a, "Nice fake setthreadidentity that just sets a variable (number) to be the new thread identity 💔")
      return "Passed"
   end)
