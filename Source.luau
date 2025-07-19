@@ -28,18 +28,18 @@ local function detected(f: string, t: () -> any)
 end
 
 task.defer(function()
-    print('')
-    print(`[ IV ]: Identity Validator results are in for {ex}`)
-    print('')
+    b('')
+    b(`[ IV ]: Identity Validator results are in for {ex}`)
+    b('')
     task.wait(3)
     local s = math.floor((passes/tested)*100)
     local f = math.floor((failures/tested)*100)
-    print(string.format("😎 Tested with a %s%% success rate", s))
-    print(string.format("💔 Failed over %d%% of tests", f))
-    print''
-    print'Contributers: RazAPIx64.dll32, danlacho, Acevincente, iusethis'
-    print'Verified Executors: NKernel'
-    print(game:GetService("HttpService"):GenerateGUID(false))
+    b(string.format("😎 Tested with a %s%% success rate", s))
+    b(string.format("💔 Failed over %d%% of tests", f))
+    b''
+    b'Contributers: RazAPIx64.dll32, danlacho, Acevincente, iusethis'
+    b'Verified Executors: NKernel'
+    b(game:GetService("HttpService"):GenerateGUID(false))
 end)
 
 print("")
