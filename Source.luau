@@ -1,7 +1,7 @@
 print("")
-print("[ IV ]: Thank you for using the identity validator by RazAPI!")
+print("Thank you for using the identity validator by RazAPI!")
 task.wait(0.3)
-print("[ IV ]: Starting...")
+print("Starting...")
 local function gv(p)local r=getfenv() or getfenv(0) if getgenv then r = getfenv() or getfenv(0) and getgenv() end; while r and p~=""do local k,n=string.match(p,"^([^.]+)%.?(.*)$")r=r[k]p=n end return r end
 local ex
 if getexecutorname then ex = getexecutorname() else ex = "Unknown" end
@@ -27,6 +27,10 @@ local function detected(f: string, t: () -> any)
     end)
 end
 
+local function LogLastMsg()
+	return game:GetService("LogService").MessageOut:Wait(), task.wait()
+end
+
 task.defer(function()
     b('')
     b(`[ IV ]: Identity Validator results are in for {ex}`)
@@ -43,6 +47,26 @@ task.defer(function()
 end)
 
 print("")
+print("Testing printidentity...")
+print("")
+
+detected("printidentity: Environment Check", function()
+   local a,b = pcall(function() if getrenv then As(getrenv().printidentity, 'printidentity does not exist in the Roblox Environment') end end);
+   if not getfenv(0).printidentity then As(3>4, 'printidentity was not found in the callers environment') end;
+   return "Passed"
+end)
+
+detected("printidentity: Validation Check", function()
+    local IsC = debug.info(printidentity, 's') == '[C]'
+    if not IsC then
+        As(3>4, 'printidentity is not a C closure (spoofed)')
+    end
+
+    printidentity()
+    As(LogLastMsg:find('Current identity is'), 'Did not print anything')
+end)
+
+print("")
 print("Testing getthreadidentity...")
 print("")
 
@@ -52,6 +76,8 @@ detected("getthreadidentity: Validation Check", function()
     local a,b = pcall(function() if getrenv then As(not getrenv().getthreadidentity, "getthreadidentity should not exist in the Roblox Environment, only the exploit's environment.") end end)
     As(getthreadidentity ~= nil, "getthreadidentity doesn't exist")
     As(type(getthreadidentity()) == "number", "Did not return a number")
+    As(getthreadidentity() <= 8, 'Thread identity cannot be more than 8')
+
     return "Passed"
 end)
 
@@ -59,6 +85,7 @@ detected("getthreadidentity: Closure Test", function()
     local a,b = pcall(function() if getgenv then As(getgenv().getthreadidentity, "getthreadidentity is not a global closure") end end)
     As(type(getthreadidentity) == "function", "getthreadidentity is not a function (got "..type(getthreadidentity)..".)")
     As(debug.info(getthreadidentity, 's') == "[C]", "getthreadidentity is not a C Closure")
+    
     return "Passed"
 end)
 
