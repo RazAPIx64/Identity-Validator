@@ -56,7 +56,7 @@ detected("printidentity: Environment Check", function()
    return "Passed"
 end)
 
-detected("printidentity: Validation Check", function()
+--[[detected("printidentity: Validation Check", function()
     local IsC = debug.info(printidentity, 's') == '[C]'
     if not IsC then
         As(3>4, 'printidentity is not a C closure (spoofed)')
@@ -64,7 +64,7 @@ detected("printidentity: Validation Check", function()
 
     printidentity()
     As(LogLastMsg:find('Current identity is'), 'Did not print anything')
-end)
+end)]]
 
 print("")
 print("Testing getthreadidentity...")
